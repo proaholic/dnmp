@@ -397,7 +397,18 @@ if [[ -z "${EXTENSIONS##*,protobuf,*}" ]]; then
         printf "\n" | pecl install protobuf
         docker-php-ext-enable protobuf
     else
-        echo "yar requires PHP >= 8.0.0, installed version is ${PHP_VERSION}"
+        echo "protobuf requires PHP >= 8.0.0, installed version is ${PHP_VERSION}"
+    fi
+fi
+
+if [[ -z "${EXTENSIONS##*,grpc,*}" ]]; then
+    isPhpVersionGreaterOrEqual 8 0
+    if [[ "$?" = "1" ]]; then
+        echo "---------- Install grpc ----------"
+        printf "\n" | pecl install grpc
+        docker-php-ext-enable grpc
+    else
+        echo "grpc requires PHP >= 8.0.0, installed version is ${PHP_VERSION}"
     fi
 fi
 

@@ -1,7 +1,6 @@
 .idea
 .DS_Store
 nohup.out
-docker-compose.yml
 docker-compose.yml.*
 www/*
 !www/localhost/

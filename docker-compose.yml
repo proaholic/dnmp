@@ -96,6 +96,8 @@ services:
     volumes:
       - ${DATA_DIR}/esdata:/usr/share/elasticsearch/data
       - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ${ELASTICSEARCH_IK_CONFIG}/IKAnalyzer.cfg.xml:/usr/share/elasticsearch/config/analysis-ik/IKAnalyzer.cfg.xml
+      - ${ELASTICSEARCH_IK_CONFIG}/custom.dic:/usr/share/elasticsearch/config/analysis-ik/custom.dic
     hostname: elasticsearch
     restart: no
     ports:
@@ -114,5 +116,19 @@ services:
     restart: no
     ports:
       - "${KIBANA_HOST}:5601"
+  mongodb:
+    image: mongodb/mongodb-community-server:${MONGODB_VERSION}
+    container_name: mongodb
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
+        MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
+        TZ: "$TZ"
+    volumes:
+      - ${DATA_DIR}/mongo:/data/db:rw
+      - ${DATA_DIR}/mongo_key:/mongo:rw
+    ports:
+       - "${MONGODB_HOST_PORT}:27017"
+    networks:
+       - default
 networks:
   default:
